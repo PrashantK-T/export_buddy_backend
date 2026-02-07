@@ -15,16 +15,26 @@ const DB_NAME = process.env.DB_NAME || 'import_buddy';
 /* =======================
    MIDDLEWARE
 ======================= */
+const allowedOrigins = process.env.CORS_ORIGINS
+  ? process.env.CORS_ORIGINS.split(",").map(o => o.trim())
+  : [];
+
 app.use(cors({
-  origin: process.env.CORS_ORIGINS
-    ? process.env.CORS_ORIGINS.split(',')
-    : '*',
-  credentials: true
+  origin: function (origin, callback) {
+    // allow server-to-server requests like Postman (no origin)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error("Not allowed by CORS"));
+  },
+  credentials: true,
 }));
 
-console.log("CORS ORIGINS:", process.env.CORS_ORIGINS);
-
 app.use(express.json());
+
 
 /* =======================
    DATABASE
