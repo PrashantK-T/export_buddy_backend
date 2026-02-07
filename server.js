@@ -16,25 +16,25 @@ const DB_NAME = process.env.DB_NAME || 'import_buddy';
    MIDDLEWARE
 ======================= */
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      const allowedOrigins = process.env.CORS_ORIGINS
-        ? process.env.CORS_ORIGINS.split(",").map((o) => o.trim())
-        : [];
+const allowedOrigins = [
+  "https://export-buddy.vercel.app",
+  "https://export-buddy-backend.vercel.app"
+];
 
-      // allow Postman / server-to-server calls
-      if (!origin) return callback(null, true);
+app.use(cors({
+  origin: (origin, callback) => {
+    // allow server-to-server calls (Postman, etc.)
+    if (!origin) return callback(null, true);
 
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
 
-      return callback(new Error("Not allowed by CORS"));
-    },
-    credentials: true,
-  })
-);
+    callback(new Error("Not allowed by CORS"));
+  },
+  credentials: true,
+}));
+
 
 
 app.use(express.json());
