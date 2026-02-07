@@ -22,6 +22,8 @@ app.use(cors({
   credentials: true
 }));
 
+console.log("CORS ORIGINS:", process.env.CORS_ORIGINS);
+
 app.use(express.json());
 
 /* =======================
