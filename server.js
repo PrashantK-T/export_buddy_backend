@@ -17,8 +17,8 @@ const DB_NAME = process.env.DB_NAME || 'import_buddy';
 ======================= */
 
 const allowedOrigins = [
-  "https://export-buddy.vercel.app",
-  "https://export-buddy-backend.vercel.app"
+  "https://import-buddy.vercel.app",
+  "https://import-buddy-backend.vercel.app"
 ];
 
 app.use(cors({
